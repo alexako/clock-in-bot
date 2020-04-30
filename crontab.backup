@@ -1,0 +1,2 @@
+55 9 * * 1-5 /Users/alex/Code/selenium/clock_in_bot.py >/tmp/stdout.log 2>/tmp/stderr.log
+0 19 * * 1-5 /Users/alex/Code/selenium/clock_in_bot.py >/tmp/stdout.log 2>/tmp/stderr.log
