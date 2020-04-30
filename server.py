@@ -6,15 +6,25 @@ from flask import Flask
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/clock-in")
 def clock_in():
     try:
-        print("Sending request...")
+        print("Clocking in...")
         bot = clock_in_bot.ClockInBot()
-        bot.send_request()
+        resp = bot.send_notification()
     finally:
         bot.quit()
         print("Done.")
-        return "Done."
+        return resp.reason
 
+@app.route("/")
+def send_request():
+    try:
+        print("Sending request...")
+        bot = clock_in_bot.ClockInBot()
+        resp = bot.send_request()
+    finally:
+        bot.quit()
+        print("Done.")
+        return resp.reason
 

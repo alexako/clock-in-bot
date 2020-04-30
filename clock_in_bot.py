@@ -59,16 +59,19 @@ class ClockInBot():
             'user': config.PUSHOVER_USER,
             'message': message
         }
-        requests.post(self.pushover_url, body)
+        return requests.post(self.pushover_url, body)
 
     def send_request(self):
         message = "Ready to clock {}?".format("out" if self.is_clocked_in else "in")
+        link_title = "Click here to clock {}".format("out" if self.is_clocked_in else "in")
         body = {
             'token': config.PUSHOVER_TOKEN,
             'user': config.PUSHOVER_USER,
-            'message': message
+            'message': message,
+            'url': config.CALLBACK_URL,
+            'url_title': link_title
         }
-        requests.post(self.pushover_url, body)
+        return requests.post(self.pushover_url, body)
 
 
 
