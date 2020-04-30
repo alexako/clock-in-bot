@@ -48,8 +48,7 @@ class ClockInBot():
         self.update_state()
 
     def get_screenshot(self):
-        date = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
-        self.driver.get_screenshot_as_file("/Users/alex/salarium_{0}.png".format(date))
+        self.driver.get_screenshot_as_file("/Users/alex/salarium.png")
 
     def send_notification(self):
         state = "out" if self.is_clocked_in else "in"
@@ -59,7 +58,10 @@ class ClockInBot():
             'user': config.PUSHOVER_USER,
             'message': message
         }
-        return requests.post(self.pushover_url, body)
+        screenshot= {
+            "attachment": ("salarium.png", open("/Users/alex/salarium.png", "rb"), "image/png")
+        }
+        return requests.post(self.pushover_url, data=body, files=screenshot)
 
     def send_request(self):
         message = "Ready to clock {}?".format("out" if self.is_clocked_in else "in")
@@ -72,8 +74,6 @@ class ClockInBot():
             'url_title': link_title
         }
         return requests.post(self.pushover_url, body)
-
-
 
     def quit(self):
         self.driver.quit()
