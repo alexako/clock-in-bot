@@ -7,4 +7,4 @@ PUSHOVER_URL = os.environ['PUSHOVER_URL']
 PUSHOVER_TOKEN = os.environ['PUSHOVER_TOKEN']
 PUSHOVER_USER = os.environ['PUSHOVER_USER']
 
-CALLBACK_URL = "https://f8d261bf.ngrok.io/clock-in"
+CALLBACK_URL = os.environ['CLOCK_IN_CALLBACK']
