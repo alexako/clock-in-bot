@@ -4,6 +4,7 @@ from selenium import webdriver
 from datetime import datetime
 import requests
 import sys
+import os
 
 import config
 
@@ -48,7 +49,7 @@ class ClockInBot():
         self.update_state()
 
     def get_screenshot(self):
-        self.driver.get_screenshot_as_file("/Users/alex/salarium.png")
+        self.driver.get_screenshot_as_file(os.path.join(os.environ['HOME'], "/salarium.png"))
 
     def send_notification(self):
         state = "out" if self.is_clocked_in else "in"
@@ -59,7 +60,7 @@ class ClockInBot():
             'message': message
         }
         screenshot= {
-            "attachment": ("salarium.png", open("/Users/alex/salarium.png", "rb"), "image/png")
+            "attachment": ("salarium.png", open(os.path.join(os.environ['HOME'], "salarium.png"), "rb"), "image/png")
         }
         return requests.post(self.pushover_url, data=body, files=screenshot)
 

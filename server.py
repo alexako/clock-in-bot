@@ -11,6 +11,10 @@ def clock_in():
     try:
         print("Clocking in...")
         bot = clock_in_bot.ClockInBot()
+        bot.login()
+        bot.driver.implicitly_wait(10)
+        bot.clock_in()
+        bot.driver.implicitly_wait(10)
         bot.get_screenshot()
         resp = bot.send_notification()
     finally:
