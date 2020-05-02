@@ -49,7 +49,7 @@ class ClockInBot():
         self.update_state()
 
     def get_screenshot(self):
-        self.driver.get_screenshot_as_file(os.path.join(os.environ['HOME'], "/salarium.png"))
+        self.driver.get_screenshot_as_file(os.path.join(os.environ['HOME'], "salarium.png"))
 
     def send_notification(self):
         state = "out" if self.is_clocked_in else "in"
