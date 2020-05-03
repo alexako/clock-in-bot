@@ -29,8 +29,6 @@ class ClockInBot():
         self.is_clocked_in = status.get_attribute('value') == "TIME IN"
 
     def login(self):
-        base_window = self.driver.window_handles[0]
-
         email_el = self.driver.find_element_by_xpath('//*[@name="email"]')
         email_el.send_keys(config.USERNAME)
 
