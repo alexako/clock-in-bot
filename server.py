@@ -33,7 +33,7 @@ def clock_in():
 @app.route("/status")
 def get_status():
     print(log)
-    return "Currently clocked {}".format("in" if bot.is_clocked_in else "out")
+    return bot.get_state()
 
 
 @app.route("/")

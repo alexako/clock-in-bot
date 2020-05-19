@@ -17,6 +17,7 @@ class ClockInBot():
             options.add_argument('headless')
 
         self.is_clocked_in = False
+        self.last_activity = datetime.now().strftime("%H:%M:%S")
         self.pushover_url = "https://api.pushover.net/1/messages.json"
 
         self.driver = webdriver.Chrome(options=options)
@@ -26,6 +27,7 @@ class ClockInBot():
 
     def update_state(self):
         status = self.driver.find_element_by_xpath('//*[@id="current_ebundy_status"]')
+        self.last_activity = datetime.now().strftime("%H:%M:%S")
         self.is_clocked_in = status.get_attribute('value') == "TIME IN"
 
     def login(self):
@@ -49,6 +51,10 @@ class ClockInBot():
     def get_screenshot(self):
         self.driver.get_screenshot_as_file(os.path.join(os.environ['HOME'], "salarium.png"))
 
+    def get_state(self):
+        state = "out" if self.is_clocked_in else "in"
+        return "You are currently clocked {0} at {1]".format(state, self.last_activity)
+
     def send_notification(self):
         state = "out" if self.is_clocked_in else "in"
         message = "You clocked {0} at {1}!".format(state, datetime.now().strftime("%H:%M:%S"))
@@ -63,8 +69,9 @@ class ClockInBot():
         return requests.post(self.pushover_url, data=body, files=screenshot)
 
     def send_request(self):
-        message = "Ready to clock {}?".format("out" if self.is_clocked_in else "in")
-        link_title = "Click here to clock {}".format("out" if self.is_clocked_in else "in")
+        state = "out" if self.is_clocked_in else "in"
+        message = "Ready to clock {}?".format(state)
+        link_title = "Click here to clock {}".format(state)
         body = {
             'token': config.PUSHOVER_TOKEN,
             'user': config.PUSHOVER_USER,
